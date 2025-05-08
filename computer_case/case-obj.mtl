@@ -1,0 +1,70 @@
+# 
+# Wavefront material file
+# Converted by the DEEP Exploration  Deep Exploration 5.7 5.7.3.4950 Release
+# Right Hemisphere, LTD
+# http://www.righthemisphere.com/
+# 
+
+newmtl Material__1
+Ka 0.117647 0.117647 0.117647
+Kd 0.752941 0.752941 0.752941
+Ks 0.752941 0.752941 0.752941
+illum 2
+Ns 8
+map_Kd 
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
+
+newmtl Material__2
+Ka 0.117647 0.117647 0.117647
+Kd 1 1 1
+Ks 0.752941 0.752941 0.752941
+illum 2
+Ns 8
+map_Kd case_diffuse.png
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
+
+newmtl Material__3
+Ka 0.117647 0.117647 0.117647
+Kd 1 1 1
+Ks 0.752941 0.752941 0.752941
+illum 2
+Ns 8
+map_Kd cable_power_diffuse.png
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
+
+newmtl Material__4
+Ka 0.117647 0.117647 0.117647
+Kd 1 1 1
+Ks 0.752941 0.752941 0.752941
+illum 2
+Ns 8
+map_Kd cable_dvi_diffuse.png
+map_bump 
+bump 
+map_opacity 
+map_d 
+refl 
+map_kS 
+map_kA 
+map_Ns 
