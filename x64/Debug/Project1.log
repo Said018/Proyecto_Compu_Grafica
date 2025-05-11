@@ -14,13 +14,13 @@ D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\inclu
 D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\include\modelAnim.h(520,24): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
   (compilando archivo de origen "main.cpp")
   
-D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(516,27): warning C4244: '=': conversión de 'Uint64' a 'double'; posible pérdida de datos
-D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(957,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(958,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(965,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(966,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
-D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(968,39): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(968,30): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(973,28): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(517,27): warning C4244: '=': conversión de 'Uint64' a 'double'; posible pérdida de datos
+D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(1041,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(1042,11): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(1049,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(1050,10): warning C4244: '=': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(1052,39): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(1052,30): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\Project1\main.cpp(1057,28): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
 LINK : warning LNK4098: la biblioteca predeterminada'MSVCRT' entra en conflicto con otras bibliotecas; use la biblioteca /NODEFAULTLIB:biblioteca
   Project1.vcxproj -> D:\Users\Daniel\Documents\Compu\Semestre_8\Compu_Grafica\Project1\x64\Debug\Project1.exe
