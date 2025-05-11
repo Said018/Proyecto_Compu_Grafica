@@ -466,6 +466,7 @@ int main() {
 	// Model casaDoll("resources/objects/casa/DollHouse.obj");
 	// Model casaB("CasaB/Casa.obj");
 	Model monitor("resources/objects/Monitor/OldMonitor03.obj");
+	Model pizarron("resources/objects/pizarron/White_board.fbx");
 
 	/*Model torsoAquaMan("resources/objects/AquaMan/torso.obj");
 	Model cabezaAquaMan("resources/objects/AquaMan/cabeza.obj");
@@ -790,7 +791,7 @@ int main() {
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.5f, 45.0f, 51.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(182.0f, 2.0f, 212.0f));
 		myShader.setMat4("model", modelOp);
-		myShader.setVec3("aColor", 0.78f, 0.66f, 0.31f);  // Color madera
+		myShader.setVec3("aColor", 0.76f, 0.60f, 0.42f);  // Color madera
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube(); 
 	
@@ -817,6 +818,12 @@ int main() {
 		renderMonitoresSobreMesa(staticShader, monitor, 80.0f, 10.0f, 42.0f);
 		renderMonitoresSobreMesa(staticShader, monitor, 0.0f, 10.0f, 84.0f);
 		renderMonitoresSobreMesa(staticShader, monitor, 80.0f, 10.0f, 84.0f);
+
+		/*modelOp = glm::mat4(1.0f);
+		modelOp = glm::translate(modelOp, glm::vec3(40.0f, 16.0f, -50.0f));
+		modelOp = glm::scale(modelOp, glm::vec3(0.5f, 0.5f, 0.5f));
+		staticShader.setMat4("model", modelOp);
+		pizarron.Draw(staticShader);*/
 
 
 		/*torsoAq = modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 7.0f, 0.0f));
@@ -1236,106 +1243,4 @@ void renderMonitoresSobreMesa(Shader& shader, Model& monitor, float x, float y, 
 		shader.setMat4("model", modelOp);
 		monitor.Draw(shader);
 	}
-}
-
-
-void renderParedes(Shader& shader) {
-
-	glm::mat4 modelOp;
-
-	// Dimensiones generales
-	float altoPared = 16.0f;
-	float largoPared = 180.0f;
-	float anchoLaboratorio = 200.0f;
-	float grosorPared = 2.0f;
-
-	// ----- Pared lateral izquierda -----
-	modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, 8.0f, 36.0f));
-	modelOp = glm::scale(modelOp, glm::vec3(grosorPared, altoPared, largoPared));
-	shader.setMat4("model", modelOp);
-	// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	renderCube();
-
-	float inicioZ = -53.0f;  
-	float paso = 30.0f;      // Distancia entre columnas
-
-	for (int i = 1; i < 6; i++) {
-		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-50, 30.0f, inicioZ + i * paso));
-		modelOp = glm::scale(modelOp, glm::vec3(2.0f, 28.0f, 2.0f));
-		shader.setMat4("model", modelOp);
-		// glBindTexture(GL_TEXTURE_2D, texturaPared);
-		renderCube();
-	}
-
-	modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, 45.0f, 36.0f));
-	modelOp = glm::scale(modelOp, glm::vec3(2.0, 2.0, 180.0));
-	shader.setMat4("model", modelOp);
-	// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	renderCube();
-
-	//for(int i = 0; i < 7; i++) {
-	//	modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, 30.0f, -53.0f));
-	//	modelOp = glm::scale(modelOp, glm::vec3(2.0f, 28.0f, 2.0f));
-	//	shader.setMat4("model", modelOp);
-	//	// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	//	renderCube();
-	//}
-	
-	
-	//for (int i = 0; i < 6; i++) {
-	//	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(-largoPared / 2, altoPared / 2, 15.0f + i * 5.0f));
-	//	model = glm::scale(model, glm::vec3(grosorPared, altoPared, 2.0f));
-	//	shader.setMat4("model", model);
-	//	// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	//	renderCube();
-
-	//	model = glm::translate(glm::mat4(1.0f), glm::vec3(-largoPared / 2 + 0.6f, altoPared / 2, -13.5f + i * 5.0f));
-	//	model = glm::scale(model, glm::vec3(0.1f, 10.0f, 1.5f));
-	//	shader.setMat4("model", model);
-	//	// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	//	renderCube();
-	//}
-
-	// ----- Pared lateral derecha -----
-	modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(130.0f, 8.0f, 36.0f));
-	modelOp = glm::scale(modelOp, glm::vec3(grosorPared, altoPared, largoPared));
-	shader.setMat4("model", modelOp);
-	// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	renderCube();
-
-	//for (int i = 0; i < 6; i++) {
-	//	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(largoPared / 2, altoPared / 2, -15.0f + i * 5.0f));
-	//	model = glm::scale(model, glm::vec3(grosorPared, altoPared, 2.0f));
-	//	shader.setMat4("model", model);
-	//	// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	//	renderCube();
-
-	//	model = glm::translate(glm::mat4(1.0f), glm::vec3(largoPared / 2 - 0.6f, altoPared / 2, -13.5f + i * 5.0f));
-	//	model = glm::scale(model, glm::vec3(0.1f, 10.0f, 1.5f));
-	//	shader.setMat4("model", model);
-	//	// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	//	renderCube();
-	//}
-
-	//// ----- Pared trasera (vidrio opaco) -----
-	//for (int i = 0; i < 6; i++) {
-	//	glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(-19.0f + i * 7.0f, altoPared / 2, -anchoLaboratorio / 2));
-	//	model = glm::scale(model, glm::vec3(2.0f, altoPared, grosorPared));
-	//	shader.setMat4("model", model);
-	//	// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	//	renderCube();
-
-	//	model = glm::translate(glm::mat4(1.0f), glm::vec3(-17.5f + i * 7.0f, altoPared / 2, -anchoLaboratorio / 2 + 0.6f));
-	//	model = glm::scale(model, glm::vec3(1.5f, 10.0f, 0.1f));
-	//	shader.setMat4("model", model);
-	//	// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	//	renderCube();
-	//}
-
-	//// ----- Pared frontal (sólida) -----
-	//glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, altoPared / 2, anchoLaboratorio / 2));
-	//model = glm::scale(model, glm::vec3(largoPared, altoPared, grosorPared));
-	//shader.setMat4("model", model);
-	//// glBindTexture(GL_TEXTURE_2D, texturaPared);
-	//renderCube();
 }
