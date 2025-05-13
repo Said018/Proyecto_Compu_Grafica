@@ -1,0 +1,36 @@
+# Blender 4.4.3 MTL File: 'None'
+# www.blender.org
+
+newmtl Material.047
+Ns 96.078453
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/Beamer_Big_PC_Room_BAKE_COL.png
+map_Ks textures/Beamer_Big_PC_Room_BAKE_Spec.jpg
+map_refl textures/Ref.jpg
+map_Bump textures/Beamer_Big_PC_Room_BAKE_NOR.jpg
+
+newmtl Material.054
+Ns 96.078453
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures/Beamer_Big_PC_Room_BAKE_COL.png
+map_Ks textures/Beamer_Big_PC_Room_BAKE_Spec.jpg
+map_refl textures/eingang_HDR.jpg
+map_Bump textures/Beamer_Big_PC_Room_BAKE_NOR.jpg
+
+newmtl Material.058
+Ns 96.078453
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+illum 1
+map_Kd textures/verlauf.jpg
+map_d textures/verlauf.jpg

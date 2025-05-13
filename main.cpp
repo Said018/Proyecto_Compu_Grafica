@@ -37,8 +37,8 @@ void renderCube();
 void renderSilla(glm::vec3 asientoPos, Shader& myShader);
 void renderMesa(Shader& myShader, float x, float y, float z);
 void renderMonitoresSobreMesa(Shader& shader, Model& monitor, float x, float y, float z);
-// void renderParedes(Shader& shader, GLuint texturaPared, GLuint texturaVidrio, GLuint texturaVidrioOpaco);
-void renderParedes(Shader& shader);
+
+
 
 // settings
 unsigned int SCR_WIDTH = 800;
@@ -79,7 +79,9 @@ unsigned int	t_smile,
 t_toalla,
 t_unam,
 t_white,
-t_ladrillos;
+t_ladrillos,
+t_pared,
+t_proyector;
 
 //Lighting
 glm::vec3 lightPosition(0.0f, 4.0f, -10.0f);
@@ -214,6 +216,7 @@ void LoadTextures()
 	t_toalla = generateTextures("Texturas/toalla.tga", 0, true);
 	t_unam = generateTextures("Texturas/escudo_unam.jpg", 0, true);
 	t_ladrillos = generateTextures("Texturas/piso_textura.jpg", 0, true);
+	t_pared = generateTextures("Texturas/pared.jpg", 0, true);
 	//This must be the last
 	t_white = generateTextures("Texturas/white.jpg", 0, false);
 }
@@ -399,7 +402,7 @@ int main() {
 	monitors = glfwGetPrimaryMonitor();
 	getResolution();
 
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Pratica X 2025-2", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Proyecto Computación Gráfica", NULL, NULL);
 	if (window == NULL) {
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
@@ -466,7 +469,8 @@ int main() {
 	// Model casaDoll("resources/objects/casa/DollHouse.obj");
 	// Model casaB("CasaB/Casa.obj");
 	Model monitor("resources/objects/Monitor/OldMonitor03.obj");
-	Model pizarron("resources/objects/pizarron/White_board.fbx");
+	Model projector("resources/objects/Proyector/Sin_nombre.obj");
+
 
 	/*Model torsoAquaMan("resources/objects/AquaMan/torso.obj");
 	Model cabezaAquaMan("resources/objects/AquaMan/cabeza.obj");
@@ -712,6 +716,7 @@ int main() {
 		renderSilla(glm::vec3(99.0f, 6.0f, 89.0f), myShader);
 
 
+
 		// =================== PAREDES ======================
 
 		// Dimensiones generales
@@ -724,6 +729,7 @@ int main() {
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, 8.0f, 36.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(2.0f, 16.0f, 180.0f));
 		myShader.setMat4("model", modelOp);
+		
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
@@ -732,22 +738,24 @@ int main() {
 			modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-50, 30.0f, -53.0f + i * 30.0f));
 			modelOp = glm::scale(modelOp, glm::vec3(2.0f, 28.0f, 2.0f));
 			myShader.setMat4("model", modelOp);
+			
 			// glBindTexture(GL_TEXTURE_2D, texturaPared);
 			renderCube();
 		}
 
-		
 
 		// ----- Pared frontal -----
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.0f, 8.0f, -55.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(178.0f, 16.0f, 2.0f));
 		myShader.setMat4("model", modelOp);
+		
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.0f, 31.0f, -55.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(182.0f, 30.0f, 2.0f));
 		myShader.setMat4("model", modelOp);
+		
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
@@ -757,6 +765,7 @@ int main() {
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(130.0f, 8.0f, 50.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(2.0f, 16.0f, 210.0f));
 		myShader.setMat4("model", modelOp);
+		
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
@@ -764,10 +773,18 @@ int main() {
 			modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(130.0f, 30.0f, 154.0f - i * 30.0f));
 			modelOp = glm::scale(modelOp, glm::vec3(2.0f, 28.0f, 2.0f));
 			myShader.setMat4("model", modelOp);
+			
 			// glBindTexture(GL_TEXTURE_2D, texturaPared);
 			renderCube();
 		}
 
+		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(130.0f, 22.0f, 156.0f));
+		modelOp = glm::scale(modelOp, glm::vec3(2.0f, 44.0f, 2.0f));
+		myShader.setVec3("aColor", 0.98f, 0.98f, 0.98f);
+		myShader.setMat4("model", modelOp);
+		
+		// glBindTexture(GL_TEXTURE_2D, texturaPared);
+		renderCube();
 
 
 		//// ----- Pared trasera (vidrio opaco) -----
@@ -775,6 +792,7 @@ int main() {
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.0f, 8.0f, 156.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(178.0f, 16.0f, 2.0f));
 		myShader.setMat4("model", modelOp);
+		
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
@@ -782,18 +800,102 @@ int main() {
 			modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(129.0f - i * 30.0f, 30.0f, 156.0f));
 			modelOp = glm::scale(modelOp, glm::vec3(2.0f, 28.0f, 2.0f));
 			myShader.setMat4("model", modelOp);
+			
 			// glBindTexture(GL_TEXTURE_2D, texturaPared);
 			renderCube();
 		}
 
 
 
+		// =================== TECHO ======================
+
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.5f, 45.0f, 51.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(182.0f, 2.0f, 212.0f));
 		myShader.setMat4("model", modelOp);
 		myShader.setVec3("aColor", 0.76f, 0.60f, 0.42f);  // Color madera
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
-		renderCube(); 
+		renderCube();
+
+
+
+		// =================== PROYECTOR ======================
+
+		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(43.0f, 38.0f, 5.0f));
+		modelOp = glm::scale(modelOp, glm::vec3(15.0f, 1.0f, 10.0f));
+		myShader.setMat4("model", modelOp);
+		myShader.setVec3("aColor", 0.98f, 0.98f, 0.98f);
+
+		// glBindTexture(GL_TEXTURE_2D, texturaPared);
+		renderCube();
+
+		for (int i = 0; i < 5; i++) {
+			modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(49.0f - i * 3.0f, 41.5f, 9.5f));
+			modelOp = glm::scale(modelOp, glm::vec3(0.5f, 6.0f, 0.5f));
+			myShader.setMat4("model", modelOp);
+			// glBindTexture(GL_TEXTURE_2D, texturaPared);
+			renderCube();
+		}
+
+		for (int i = 0; i < 5; i++) {
+			modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(49.0f - i * 3.0f, 41.5f, 0.5f));
+			modelOp = glm::scale(modelOp, glm::vec3(0.5f, 6.0f, 0.5f));
+			myShader.setMat4("model", modelOp);
+			// glBindTexture(GL_TEXTURE_2D, texturaPared);
+			renderCube();
+		}
+
+
+		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(43.0f, 44.0f, 5.0f));
+		modelOp = glm::scale(modelOp, glm::vec3(15.0f, 1.0f, 10.0f));
+		myShader.setMat4("model", modelOp);
+		myShader.setVec3("aColor", 0.98f, 0.98f, 0.98f);
+		// glBindTexture(GL_TEXTURE_2D, texturaPared);
+		renderCube();
+
+
+		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(50.0f, 41.5f, 5.0f));
+		modelOp = glm::scale(modelOp, glm::vec3(1.0f, 6.0f, 10.0f));
+		myShader.setMat4("model", modelOp);
+		myShader.setVec3("aColor", 0.98f, 0.98f, 0.98f);
+		// glBindTexture(GL_TEXTURE_2D, texturaPared);
+		renderCube();
+
+		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(36.0f, 41.5f, 5.0f));
+		modelOp = glm::scale(modelOp, glm::vec3(1.0f, 6.0f, 10.0f));
+		myShader.setMat4("model", modelOp);
+		myShader.setVec3("aColor", 0.98f, 0.98f, 0.98f);
+		// glBindTexture(GL_TEXTURE_2D, texturaPared);
+		renderCube();
+
+
+
+		// =================== PIZARRÓN ======================
+
+		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.0f, 23.0f, -53.5f));
+		modelOp = glm::scale(modelOp, glm::vec3(80.0f, 20.0f, 1.0f));
+		myShader.setMat4("model", modelOp);
+		myShader.setVec3("aColor", 1.0f, 1.0f, 1.0f); 
+		// glBindTexture(GL_TEXTURE_2D, texturaPared);
+		renderCube();
+
+		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.0f, 12.5f, -52.5f));
+		modelOp = glm::scale(modelOp, glm::vec3(80.0f, 1.0f, 3.0f));
+		myShader.setMat4("model", modelOp);
+		myShader.setVec3("aColor", 0.98f, 0.98f, 0.98f);
+		// glBindTexture(GL_TEXTURE_2D, texturaPared);
+		renderCube();
+
+		
+		// =================== PUERTA ======================
+
+		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-50.5f, 22.0f, 145.0f));
+		modelOp = glm::scale(modelOp, glm::vec3(2.0f, 44.0f, 20.0f));
+		myShader.setMat4("model", modelOp);
+		myShader.setVec3("aColor", 0.76f, 0.60f, 0.42f);  // Color madera
+		renderCube();
+
+
+
 	
 		
 		// ------------------------------------------------------------------------------------------------------------------------
@@ -807,9 +909,20 @@ int main() {
 		staticShader.setMat4("projection", projectionOp);
 		staticShader.setMat4("view", viewOp);
 
-		/*modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-120.0f, 0.0f, 0.0f));
+
+
+
+		// Proyector
+		modelOp = glm::translate(modelOp, glm::vec3(0.05f, 27.0f, 20.0f));
+		modelOp = glm::scale(modelOp, glm::vec3(1.0f, 60.0f, 25.0f));
+		modelOp = glm::rotate(modelOp, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelOp = glm::rotate(modelOp, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelOp = glm::rotate(modelOp, glm::radians(15.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		staticShader.setMat4("model", modelOp);
-		casaB.Draw(staticShader);*/
+		projector.Draw(staticShader);
+
+
+	
 
 
 		renderMonitoresSobreMesa(staticShader, monitor, 0.0f, 10.0f, 0.0f);
@@ -819,117 +932,12 @@ int main() {
 		renderMonitoresSobreMesa(staticShader, monitor, 0.0f, 10.0f, 84.0f);
 		renderMonitoresSobreMesa(staticShader, monitor, 80.0f, 10.0f, 84.0f);
 
-		/*modelOp = glm::mat4(1.0f);
-		modelOp = glm::translate(modelOp, glm::vec3(40.0f, 16.0f, -50.0f));
-		modelOp = glm::scale(modelOp, glm::vec3(0.5f, 0.5f, 0.5f));
-		staticShader.setMat4("model", modelOp);
-		pizarron.Draw(staticShader);*/
-
-
-		/*torsoAq = modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 7.0f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		torsoAquaMan.Draw(staticShader);
-
-		modelOp = glm::translate(torsoAq, glm::vec3(0.0f, 1.5f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		cabezaAquaMan.Draw(staticShader);
-
-		modelOp = glm::translate(torsoAq, glm::vec3(-0.75f, 1.5f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		brazoDerAquaMan.Draw(staticShader);
-
-		modelOp = glm::translate(torsoAq, glm::vec3(0.75f, 1.5f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		brazoIzquAquaMan.Draw(staticShader);
-
-		modelOp = glm::translate(torsoAq, glm::vec3(-0.5f, 0.0f, -0.1f));
-		staticShader.setMat4("model", modelOp);
-		piernaDerAquaMan.Draw(staticShader);
-
-		modelOp = glm::translate(torsoAq, glm::vec3(0.5f, 0.0f, -0.1f));
-		staticShader.setMat4("model", modelOp);
-		piernaIzquAquaMan.Draw(staticShader);
-
-
-		modelOp = glm::translate(torsoAq, glm::vec3(-0.5f, -0.9f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		botaDerAquaMan.Draw(staticShader);
-
-
-		modelOp = glm::translate(torsoAq, glm::vec3(0.5f, -0.9f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		botaIzquAquaMan.Draw(staticShader);*/
-
-
-		/*modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(250.0f, 0.0f, -10.0f));
-		modelOp = glm::rotate(modelOp, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		casaDoll.Draw(staticShader);*/
-
-		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.75f, 0.0f));
-		modelOp = glm::scale(modelOp, glm::vec3(0.2f));
-		staticShader.setMat4("model", modelOp);
-		//piso.Draw(staticShader);
-
-		/*modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -70.0f));
-		modelOp = glm::scale(modelOp, glm::vec3(5.0f));
-		staticShader.setMat4("model", modelOp);
-		staticShader.setVec3("dirLight.specular", glm::vec3(0.0f, 0.0f, 0.0f));
-		casaVieja.Draw(staticShader);*/
-
 		
 		
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Just in case
 		// -------------------------------------------------------------------------------------------------------------------------
-		/*modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(posX, posY, posZ));
-		tmp = modelOp = glm::rotate(modelOp, glm::radians(giroMonito), glm::vec3(0.0f, 1.0f, 0.0));
-		staticShader.setMat4("model", modelOp);
-		torso.Draw(staticShader);
-
-		//Pierna Der
-		modelOp = glm::translate(tmp, glm::vec3(-0.5f, 0.0f, -0.1f));
-		modelOp = glm::rotate(modelOp, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0));
-		modelOp = glm::rotate(modelOp, glm::radians(-rotRodIzq), glm::vec3(1.0f, 0.0f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		piernaDer.Draw(staticShader);
-
-		//Pie Der
-		modelOp = glm::translate(modelOp, glm::vec3(0, -0.9f, -0.2f));
-		staticShader.setMat4("model", modelOp);
-		botaDer.Draw(staticShader);
-
-		//Pierna Izq
-		modelOp = glm::translate(tmp, glm::vec3(0.5f, 0.0f, -0.1f));
-		modelOp = glm::rotate(modelOp, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		piernaIzq.Draw(staticShader);
-
-		//Pie Iz
-		modelOp = glm::translate(modelOp, glm::vec3(0, -0.9f, -0.2f));
-		staticShader.setMat4("model", modelOp);
-		botaDer.Draw(staticShader);	//Izq trase
-
-		//Brazo derecho
-		modelOp = glm::translate(tmp, glm::vec3(0.0f, -1.0f, 0.0f));
-		modelOp = glm::translate(modelOp, glm::vec3(-0.75f, 2.5f, 0));
-		modelOp = glm::rotate(modelOp, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		brazoDer.Draw(staticShader);
-
-		//Brazo izquierdo
-		modelOp = glm::translate(tmp, glm::vec3(0.0f, -1.0f, 0.0f));
-		modelOp = glm::translate(modelOp, glm::vec3(0.75f, 2.5f, 0));
-		modelOp = glm::rotate(modelOp, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		staticShader.setMat4("model", modelOp);
-		brazoIzq.Draw(staticShader);
-
-		//Cabeza
-		modelOp = glm::translate(tmp, glm::vec3(0.0f, -1.0f, 0.0f));
-		modelOp = glm::rotate(modelOp, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0));
-		modelOp = glm::translate(modelOp, glm::vec3(0.0f, 2.5f, 0));
-		staticShader.setMat4("model", modelOp);
-		cabeza.Draw(staticShader);*/
+		
 
 		//-------------------------------------------------------------------------------------
 		// draw skybox as last

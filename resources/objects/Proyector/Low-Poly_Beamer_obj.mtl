@@ -1,0 +1,39 @@
+# Blender MTL File: 'Low-Poly_Beamer_blend.blend'
+# Material Count: 3
+
+newmtl Material.047
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 1.000000 1.000000 1.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures\Beamer_Big_PC_Room_BAKE_COL.png
+map_Bump textures\\Beamer_Big_PC_Room_BAKE_NOR.jpg
+map_Ks textures\\Beamer_Big_PC_Room_BAKE_Spec.jpg
+refl textures\\Ref.jpg
+
+newmtl Material.054
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textures\Beamer_Big_PC_Room_BAKE_COL.png
+map_Bump textures\\Beamer_Big_PC_Room_BAKE_NOR.jpg
+map_Ks textures\\Beamer_Big_PC_Room_BAKE_Spec.jpg
+refl textures\\eingang_HDR.jpg
+
+newmtl Material.058
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 1
+map_Kd textures\verlauf.jpg
+map_d textures\\verlauf.jpg
