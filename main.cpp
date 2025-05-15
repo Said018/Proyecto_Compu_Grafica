@@ -1,7 +1,6 @@
 /*---------------------------------------------------------*/
 /*-----------------    2025-2   ---------------------------*/
-/*------------- Alumno: Nicolás Feregrino Daniel  ---------------*/
-/*------------- No. Cuenta: 318230357             ---------------*/
+/*------------- Equipo 3  ---------------*/
 
 #include <Windows.h>
 
@@ -37,6 +36,9 @@ void renderCube();
 void renderSilla(glm::vec3 asientoPos, Shader& myShader);
 void renderMesa(Shader& myShader, float x, float y, float z);
 void renderMonitoresSobreMesa(Shader& shader, Model& monitor, float x, float y, float z);
+void renderVentanasEnPared(Shader& shader, Model& ventana, float x, float y, float z, float rad, float xr, float yr, float zr);
+void renderCPUsBajoMesa(Shader& shader, Model& cpuModel, float x, float y, float z, float rad, float xr, float yr, float zr);
+void renderTeclados(Shader& shader, Model& teclado, float x, float y, float z);
 
 
 
@@ -80,7 +82,7 @@ t_toalla,
 t_unam,
 t_white,
 t_ladrillos,
-t_pared,
+t_paredes,
 t_proyector;
 
 //Lighting
@@ -216,7 +218,7 @@ void LoadTextures()
 	t_toalla = generateTextures("Texturas/toalla.tga", 0, true);
 	t_unam = generateTextures("Texturas/escudo_unam.jpg", 0, true);
 	t_ladrillos = generateTextures("Texturas/piso_textura.jpg", 0, true);
-	t_pared = generateTextures("Texturas/pared.jpg", 0, true);
+	t_paredes = generateTextures("Texturas/Wall_Texture.jpg", 0, true);
 	//This must be the last
 	t_white = generateTextures("Texturas/white.jpg", 0, false);
 }
@@ -395,7 +397,7 @@ void myData() {
 }
 
 int main() {
-// glfw: initialize and configure
+	// glfw: initialize and configure
 	glfwInit();
 
 	// glfw window creation
@@ -434,7 +436,7 @@ int main() {
 	myData();
 	glEnable(GL_DEPTH_TEST);
 
-	
+
 
 	// build and compile shaders
 	// -------------------------
@@ -442,7 +444,7 @@ int main() {
 	Shader staticShader("Shaders/shader_Lights.vs", "Shaders/shader_Lights_mod.fs");	//To use with static models
 	Shader skyboxShader("Shaders/skybox.vs", "Shaders/skybox.fs");	//To use with skybox
 	Shader animShader("Shaders/anim.vs", "Shaders/anim.fs");	//To use with animated models 
-	
+
 	vector<std::string> faces{
 		"resources/skybox/right.jpg",
 		"resources/skybox/left.jpg",
@@ -470,6 +472,11 @@ int main() {
 	// Model casaB("CasaB/Casa.obj");
 	Model monitor("resources/objects/Monitor/OldMonitor03.obj");
 	Model projector("resources/objects/Proyector/Sin_nombre.obj");
+	Model ventana("resources/objects/ventana/OBJ.obj");
+	Model computer_case("resources/objects/case/uploads_files_4468543_PC.obj");
+	Model teclado("resources/objects/Teclado/keyboard_model.obj");
+
+
 
 
 	/*Model torsoAquaMan("resources/objects/AquaMan/torso.obj");
@@ -480,13 +487,13 @@ int main() {
 	Model piernaIzquAquaMan("resources/objects/AquaMan/piernaIzquierda.obj");
 	Model botaDerAquaMan("resources/objects/AquaMan/botaDerecha.obj");
 	Model botaIzquAquaMan("resources/objects/AquaMan/botaIzquierda.obj");*/
-	
-
-	
 
 
-	ModelAnim animacionPersonaje("resources/objects/Personaje1/Arm.dae");
-	animacionPersonaje.initShaders(animShader.ID);
+
+
+
+	/*ModelAnim animacionPersonaje("resources/objects/Personaje1/Arm.dae");
+	animacionPersonaje.initShaders(animShader.ID);*/
 
 	//ModelAnim Caballero("resources/objects/Caballero/caballero.dae");
 	//Caballero.initShaders(animShader.ID);
@@ -509,7 +516,7 @@ int main() {
 	glm::mat4 viewOp = glm::mat4(1.0f);		//Use this matrix for ALL models
 	glm::mat4 projectionOp = glm::mat4(1.0f);	//This matrix is for Projection
 
-	glm::mat4 torsoAq = glm::mat4(1.0f);	
+	glm::mat4 torsoAq = glm::mat4(1.0f);
 
 	// render loop
 	// -----------
@@ -608,11 +615,11 @@ int main() {
 		animShader.setVec3("light.direction", lightDirection);
 		animShader.setVec3("viewPos", camera.Position);
 
-		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-40.3f, 1.75f, 0.3f)); // translate it down so it's at the center of the scene
-		modelOp = glm::scale(modelOp, glm::vec3(0.05f));	// it's a bit too big for our scene, so scale it down
-		modelOp = glm::rotate(modelOp, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		animShader.setMat4("model", modelOp);
-		animacionPersonaje.Draw(animShader);
+		//modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-40.3f, 1.75f, 0.3f)); // translate it down so it's at the center of the scene
+		//modelOp = glm::scale(modelOp, glm::vec3(0.05f));	// it's a bit too big for our scene, so scale it down
+		//modelOp = glm::rotate(modelOp, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//animShader.setMat4("model", modelOp);
+		//animacionPersonaje.Draw(animShader);
 
 		// -------------------------------------------------------------------------------------------------------------------------
 		// Segundo Personaje Animacion
@@ -729,33 +736,22 @@ int main() {
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-50.0f, 8.0f, 36.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(2.0f, 16.0f, 180.0f));
 		myShader.setMat4("model", modelOp);
-		
-		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
-
-		for (int i = 1; i < 6; i++) {
-			modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-50, 30.0f, -53.0f + i * 30.0f));
-			modelOp = glm::scale(modelOp, glm::vec3(2.0f, 28.0f, 2.0f));
-			myShader.setMat4("model", modelOp);
-			
-			// glBindTexture(GL_TEXTURE_2D, texturaPared);
-			renderCube();
-		}
 
 
 		// ----- Pared frontal -----
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.0f, 8.0f, -55.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(178.0f, 16.0f, 2.0f));
 		myShader.setMat4("model", modelOp);
-		
+
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.0f, 31.0f, -55.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(182.0f, 30.0f, 2.0f));
 		myShader.setMat4("model", modelOp);
-		
+
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
@@ -765,42 +761,33 @@ int main() {
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(130.0f, 8.0f, 50.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(2.0f, 16.0f, 210.0f));
 		myShader.setMat4("model", modelOp);
-		
+
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
-		for (int i = 1; i < 6; i++) {
-			modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(130.0f, 30.0f, 154.0f - i * 30.0f));
-			modelOp = glm::scale(modelOp, glm::vec3(2.0f, 28.0f, 2.0f));
-			myShader.setMat4("model", modelOp);
-			
-			// glBindTexture(GL_TEXTURE_2D, texturaPared);
-			renderCube();
-		}
 
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(130.0f, 22.0f, 156.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(2.0f, 44.0f, 2.0f));
 		myShader.setVec3("aColor", 0.98f, 0.98f, 0.98f);
 		myShader.setMat4("model", modelOp);
-		
+
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
 
-		//// ----- Pared trasera (vidrio opaco) -----
+		//// ----- Pared trasera -----
 
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.0f, 8.0f, 156.0f));
 		modelOp = glm::scale(modelOp, glm::vec3(178.0f, 16.0f, 2.0f));
 		myShader.setMat4("model", modelOp);
-		
-		// glBindTexture(GL_TEXTURE_2D, texturaPared);
+		// glBindTexture(GL_TEXTURE_2D, t_ladrillos);
 		renderCube();
 
 		for (int i = 1; i < 6; i++) {
 			modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(129.0f - i * 30.0f, 30.0f, 156.0f));
 			modelOp = glm::scale(modelOp, glm::vec3(2.0f, 28.0f, 2.0f));
 			myShader.setMat4("model", modelOp);
-			
+
 			// glBindTexture(GL_TEXTURE_2D, texturaPared);
 			renderCube();
 		}
@@ -874,7 +861,7 @@ int main() {
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(40.0f, 23.0f, -53.5f));
 		modelOp = glm::scale(modelOp, glm::vec3(80.0f, 20.0f, 1.0f));
 		myShader.setMat4("model", modelOp);
-		myShader.setVec3("aColor", 1.0f, 1.0f, 1.0f); 
+		myShader.setVec3("aColor", 1.0f, 1.0f, 1.0f);
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
@@ -885,19 +872,19 @@ int main() {
 		// glBindTexture(GL_TEXTURE_2D, texturaPared);
 		renderCube();
 
-		
+
 		// =================== PUERTA ======================
 
 		modelOp = glm::translate(glm::mat4(1.0f), glm::vec3(-50.5f, 22.0f, 145.0f));
-		modelOp = glm::scale(modelOp, glm::vec3(2.0f, 44.0f, 20.0f));
+		modelOp = glm::scale(modelOp, glm::vec3(3.0f, 44.0f, 22.5f));
 		myShader.setMat4("model", modelOp);
 		myShader.setVec3("aColor", 0.76f, 0.60f, 0.42f);  // Color madera
 		renderCube();
 
 
 
-	
-		
+
+
 		// ------------------------------------------------------------------------------------------------------------------------
 		// Termina Escenario Primitivas
 		// -------------------------------------------------------------------------------------------------------------------------
@@ -922,7 +909,61 @@ int main() {
 		projector.Draw(staticShader);
 
 
-	
+		// Ventanas
+
+		// Ventanas izquierdas
+		renderVentanasEnPared(staticShader, ventana, -50.0f, 16.0f, -44.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -50.0f, 16.0f, -24.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -50.0f, 16.0f, -4.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -50.0f, 16.0f, 16.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -50.0f, 16.0f, 36.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -50.0f, 16.0f, 56.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -50.0f, 16.0f, 76.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -50.0f, 16.0f, 96.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -50.0f, 16.0f, 116.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+
+		// Ventanas derechas
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, -44.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, -24.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, -4.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, 16.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, 36.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, 56.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, 76.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, 96.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, 116.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, 136.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 130.0f, 16.0f, 146.0f, 90.0f, 0.0f, 1.0f, 0.0f);
+
+		// Ventanas traseras
+		renderVentanasEnPared(staticShader, ventana, 119.0f, 16.0f, 156.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 109.0f, 16.0f, 156.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 89.0f, 16.0f, 156.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 69.0f, 16.0f, 156.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 49.0f, 16.0f, 156.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 29.0f, 16.0f, 156.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, 9.0f, 16.0f, 156.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -11.0f, 16.0f, 156.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -31.0f, 16.0f, 156.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		renderVentanasEnPared(staticShader, ventana, -41.0f, 16.0f, 156.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+		
+
+		// CPU
+		renderCPUsBajoMesa(staticShader, computer_case, -8.0f, 7.0f, 0.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderCPUsBajoMesa(staticShader, computer_case, 72.0f, 7.0f, 0.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderCPUsBajoMesa(staticShader, computer_case, -8.0f, 7.0f, 42.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderCPUsBajoMesa(staticShader, computer_case, 72.0f, 7.0f, 42.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderCPUsBajoMesa(staticShader, computer_case, -8.0f, 7.0f, 84.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+		renderCPUsBajoMesa(staticShader, computer_case, 72.0f, 7.0f, 84.0f, -90.0f, 0.0f, 1.0f, 0.0f);
+
+
+		// Teclados
+		renderTeclados(staticShader, teclado, -3.0f, 8.0f, 4.0f);
+		renderTeclados(staticShader, teclado, 77.0f, 8.0f, 4.0f);
+		renderTeclados(staticShader, teclado, -3.0f, 8.0f, 46.0f);
+		renderTeclados(staticShader, teclado, 77.0f, 8.0f, 46.0f);
+		renderTeclados(staticShader, teclado, -3.0f, 8.0f, 88.0f);
+		renderTeclados(staticShader, teclado, 77.0f, 8.0f, 88.0f);
 
 
 		renderMonitoresSobreMesa(staticShader, monitor, 0.0f, 10.0f, 0.0f);
@@ -931,6 +972,7 @@ int main() {
 		renderMonitoresSobreMesa(staticShader, monitor, 80.0f, 10.0f, 42.0f);
 		renderMonitoresSobreMesa(staticShader, monitor, 0.0f, 10.0f, 84.0f);
 		renderMonitoresSobreMesa(staticShader, monitor, 80.0f, 10.0f, 84.0f);
+
 
 		
 		
@@ -1250,5 +1292,60 @@ void renderMonitoresSobreMesa(Shader& shader, Model& monitor, float x, float y, 
 		modelOp = glm::scale(modelOp, glm::vec3(2.0f, 2.0f, 2.0f));
 		shader.setMat4("model", modelOp);
 		monitor.Draw(shader);
+	}
+}
+
+void renderVentanasEnPared(Shader& shader, Model& ventana, float x, float y, float z, float rad, float xr, float yr, float zr) {
+	glm::mat4 modelOp;
+
+	modelOp = glm::mat4(1.0f);
+	modelOp = glm::translate(modelOp, glm::vec3(x, y, z));
+	modelOp = glm::rotate(modelOp, glm::radians(rad), glm::vec3(xr, yr, zr)); 
+	modelOp = glm::scale(modelOp, glm::vec3(0.15f, 0.15f, 0.15f)); 
+	shader.setMat4("model", modelOp);
+	ventana.Draw(shader);
+}
+
+
+void renderCPUsBajoMesa(Shader& shader, Model& cpuModel, float x, float y, float z, float rad, float xr, float yr, float zr) {
+	glm::mat4 modelOp;
+
+	// Altura a la que se colocan los monitores sobre la mesa
+	float alturaMesa = 2.0f;  // Altura de la cubierta de la mesa
+	float yMonitor = y + alturaMesa + 3; // Ajuste para que el monitor no se hunda
+
+	// Posiciones relativas de los monitores sobre la mesa
+	float offsetX = 18.0f;  // Separación horizontal desde el centro
+	float posicionesX[3] = { x - offsetX, x, x + offsetX };
+
+	for (int i = 0; i < 3; ++i) {
+		modelOp = glm::mat4(1.0f);
+		modelOp = glm::translate(modelOp, glm::vec3(posicionesX[i], yMonitor, z));
+		modelOp = glm::rotate(modelOp, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelOp = glm::scale(modelOp, glm::vec3(10.0f, 10.0f, 10.0f));
+		shader.setMat4("model", modelOp);
+		cpuModel.Draw(shader);
+	}
+
+
+}
+
+void renderTeclados(Shader& shader, Model& teclado, float x, float y, float z) {
+	glm::mat4 modelOp;
+
+	// Altura a la que se colocan los monitores sobre la mesa
+	float alturaMesa = 2.0f;  // Altura de la cubierta de la mesa
+	float yMonitor = y + alturaMesa + 3; // Ajuste para que el monitor no se hunda
+
+	// Posiciones relativas de los monitores sobre la mesa
+	float offsetX = 18.0f;  // Separación horizontal desde el centro
+	float posicionesX[3] = { x - offsetX, x, x + offsetX };
+
+	for (int i = 0; i < 3; ++i) {
+		modelOp = glm::mat4(1.0f);
+		modelOp = glm::translate(modelOp, glm::vec3(posicionesX[i], yMonitor, z));
+		modelOp = glm::scale(modelOp, glm::vec3(0.004f, 0.004f, 0.004f));
+		shader.setMat4("model", modelOp);
+		teclado.Draw(shader);
 	}
 }
